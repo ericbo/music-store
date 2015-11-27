@@ -1,0 +1,28 @@
+.list-group-item p {
+	margin: 0;
+}
+
+.active {
+	background: #222;
+}
+
+.progress-bar {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
+}​
+
+.progress-bar, .progress {
+	height: 15px;
+}
+
+.progress {
+	margin: 5px 0 0 0;
+	background: #464545;
+}
+
+.progress-bar {
+	background: #222222;
+}
