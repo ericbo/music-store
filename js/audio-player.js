@@ -1,12 +1,16 @@
 var player = document.getElementById("music-player");
 
-//Listeners
-$("#play-pause").click(function() {
-	if(player.paused)
-		player.play();
-	else
-		player.pause();
+$(document).ready(changeSize);
+
+$(window).resize(changeSize);
+
+$(window).keydown(function(e) {
+    if(e.keyCode == 32)
+        transition();
 });
+
+//Listeners
+$(".play-pause").click(transition);
 
 $(".list-group-item").click(function() {
   if( ! $(this).hasClass('ignore') ) {
@@ -29,7 +33,6 @@ $('.progress').bind('click', function (ev) {
     var offset = $div.offset();
     var x = ev.clientX - offset.left;
     var widthPercent = (x) / $(this).width();
-    console.log(widthPercent);
 
     if(player.currentTime != null)
     {
@@ -39,12 +42,56 @@ $('.progress').bind('click', function (ev) {
     if(player.paused)
     	player.play();
 });
+player.onplaying = function() {
+    changeToPause();
+    updateProgress();
+}
 
-player.onplaying = updateProgress();
+player.onpause = function() {changeToPlay()};
 
 function updateProgress() {
 	var width = (player.currentTime * 100 / player.duration) + "%";
  	$('.progress-bar').width(width);
 
  	window.requestAnimationFrame(updateProgress);
+}
+
+
+/* Functions */
+function transition() {
+    if(player.paused)
+        player.play();
+    else
+        player.pause();
+}
+
+function changeToPause() {
+    var $playPause = $(".glyphicon-play");
+    $playPause.removeClass("glyphicon-play");
+    $playPause.addClass("glyphicon-pause");
+}
+
+function changeToPlay() {
+    var $playPause = $(".glyphicon-pause");
+    $playPause.removeClass("glyphicon-pause");
+    $playPause.addClass("glyphicon-play");
+}
+
+function loadFooter() {
+    $("#controls").addClass('hidden');
+    $("footer").removeClass('hidden');
+    $("body").addClass("fix-body");
+}
+
+function disableFooter() {
+    $("#controls").removeClass('hidden');
+    $("footer").addClass('hidden');
+    $("body").removeClass("fix-body");
+}
+
+function changeSize() {
+    if($("body").height() > $(window).height()) { //Page has a scroll bar.
+        if($("footer").hasClass('hidden'))   //If the footer does not exist
+            loadFooter();
+    }
 }

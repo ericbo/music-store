@@ -2,10 +2,6 @@
 	margin: 0;
 }
 
-.active {
-	background: #222;
-}
-
 .progress-bar {
   -webkit-transition: none;
   -moz-transition: none;
@@ -25,4 +21,24 @@
 
 .progress-bar {
 	background: #222222;
+}
+
+.hidden {
+	display: none;
+}
+
+footer {
+    position: fixed;
+    height: 100px;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    background: #303030;
+    border-top: 1px solid #222;
+    z-index: 2;
+}
+
+.fix-body {
+	margin-bottom: 100px;
 }

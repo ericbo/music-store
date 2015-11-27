@@ -5307,7 +5307,7 @@ button.list-group-item {
 .list-group-item.active:focus {
   z-index: 2;
   color: #fff;
-  background-color: #337ab7;
+  background-color: #222;
   border-color: #337ab7;
 }
 .list-group-item.active .list-group-item-heading,
