@@ -14,7 +14,7 @@ function get_beats_for_sale() {
     $dbh = db_connection();
 
     try {
-        $query = $dbh->query("SELECT * FROM beats where leasedTill <= NOW() OR leasedTill IS NULL", PDO::FETCH_ASSOC);
+        $query = $dbh->query("SELECT * FROM beats WHERE deleted = 0 AND exclusive = 0", PDO::FETCH_ASSOC);
         $rows = $query->fetchAll();
     } catch (PDOException $e) {
         //log_error($e->getCode(), $e->getMessage());

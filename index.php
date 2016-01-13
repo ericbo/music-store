@@ -1,3 +1,8 @@
+<?php
+  $dir = dirname(__FILE__);
+  include_once($dir . "/functions/database_functions.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,66 +29,29 @@
       <!--MUSIC PLAYER-->
       <div class="list-group">
         <!--LIST OF MUSIC-->
-        <div class="list-group-item" src="https://dl.dropboxusercontent.com/u/18160070/audio/unsorted/altitude.ogg">
-           <div class="pull-right">
-            <button class="btn btn-default pull-right">Add To Cart</button>
-          </div>
-          <p>Altitude</p> 
-          <small>Spoken Verse</small>
-        </div>
+      <?php
+        try {
+          $beats = get_beats_for_sale();
+        } catch (Exception $e) {
+          echo "We are currently undergoing maintenance, please come back later.";
+        }
 
-        <div class="list-group-item" src="https://dl.dropboxusercontent.com/u/18160070/audio/unsorted/turtle.ogg">
-          <div class="pull-right">
-            <button class="btn btn-default pull-right">Add To Cart</button>
+        if(count($beats))
+          foreach($beats as $beat)
+          {
+            echo "        
+            <div class=\"list-group-item\" name="test">
+           <div class=\"pull-right\">
+            <button class=\"btn btn-default pull-right\">Add To Cart</button>
           </div>
-          <p>Turtle</p> 
-          <small>Sound Effect</small>
-        </div>
+          <p>{$beat['title']}</p> 
+          <small>{$beat['category']}</small>
+        </div>";
+          }
+        else
+          echo "No beats are currently available.";
+      ?>
 
-        <div class="list-group-item" src="https://dl.dropboxusercontent.com/u/18160070/audio/unsorted/the_time_machine.ogg">
-          <div class="pull-right">
-            <button class="btn btn-default pull-right">Add To Cart</button>
-          </div>
-          <p>Time Machine</p> 
-          <small>Preview</small>
-        </div>
-
-        <div class="list-group-item" src="https://dl.dropboxusercontent.com/u/18160070/audio/unsorted/den_ne_ne_ne.ogg">
-          <div class="pull-right">
-            <button class="btn btn-default pull-right">Add To Cart</button>
-          </div>
-          <p>Level Down!</p> 
-          <small>Preview</small>
-        </div>
-
-        <div class="list-group-item" src="https://dl.dropboxusercontent.com/u/18160070/audio/unsorted/den_ne_ne_ne.ogg">
-          <div class="pull-right">
-            <button class="btn btn-default pull-right">Add To Cart</button>
-          </div>
-          <p>Level Down!</p> 
-          <small>Preview</small>
-        </div>
-        <div class="list-group-item" src="https://dl.dropboxusercontent.com/u/18160070/audio/unsorted/den_ne_ne_ne.ogg">
-          <div class="pull-right">
-            <button class="btn btn-default pull-right">Add To Cart</button>
-          </div>
-          <p>Level Down!</p> 
-          <small>Preview</small>
-        </div>
-        <div class="list-group-item" src="https://dl.dropboxusercontent.com/u/18160070/audio/unsorted/den_ne_ne_ne.ogg">
-          <div class="pull-right">
-            <button class="btn btn-default pull-right">Add To Cart</button>
-          </div>
-          <p>Level Down!</p> 
-          <small>Preview</small>
-        </div>
-        <div class="list-group-item" src="https://dl.dropboxusercontent.com/u/18160070/audio/unsorted/den_ne_ne_ne.ogg">
-          <div class="pull-right">
-            <button class="btn btn-default pull-right">Add To Cart</button>
-          </div>
-          <p>Level Down!</p> 
-          <small>Preview</small>
-        </div>
         <!--CONTROLLS-->
         <div id="controls" class="list-group-item ignore text-center">
           <div class="btn-group" role="group" aria-label="Player Buttons">

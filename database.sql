@@ -6,9 +6,9 @@ CREATE TABLE beats
 	beatID			INT						AUTO_INCREMENT,
 	title				VARCHAR(64)		NOT NULL,
 	category		VARCHAR(32)		NOT NULL,
-	leasedTill	DATETIME			DEFAULT NULL,
-	exclusive		BIT(1)				DEFAULT 0,
-	deleted			BIT(1)				DEFAULT 0,
+	exclusive		BIT(1)				DEFAULT 0		NOT NULL,
+	deleted			BIT(1)				DEFAULT 0		NOT NULL,
+	fileName		VARCHAR(128)	NOT NULL
 
 	PRIMARY KEY(beatID)
 );
