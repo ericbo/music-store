@@ -63,7 +63,7 @@
             </div>
           </div>
 
-          <h2 class="sub-header">Current Beats</h2>
+          <h2 class="sub-header">Current Beats <small><a href="upload.php">Add a Beat</a></small></h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>

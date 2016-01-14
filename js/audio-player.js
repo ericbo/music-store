@@ -11,6 +11,8 @@ $(window).keydown(function(e) {
 });
 
 //Listeners
+$(".list-group-item button").click(function(e) { e.stopPropagation(); });
+
 $(".play-pause").click(transition);
 
 $(".list-group-item").click(function() {

@@ -27,6 +27,40 @@ function get_beats_for_sale() {
     return $rows;
 }
 
+function get_beats() {
+    $dbh = db_connection();
+
+    try {
+        $query = $dbh->query("SELECT * FROM beats WHERE deleted = 0", PDO::FETCH_ASSOC);
+        $rows = $query->fetchAll();
+    } catch (PDOException $e) {
+        //log_error($e->getCode(), $e->getMessage());
+        throw new Exception('Internal Server error.');
+    }
+
+    $query = null;
+    $dbh = null;
+
+    return $rows;
+}
+
+function get_deleted_beats() {
+    $dbh = db_connection();
+
+    try {
+        $query = $dbh->query("SELECT * FROM beats WHERE deleted = 1", PDO::FETCH_ASSOC);
+        $rows = $query->fetchAll();
+    } catch (PDOException $e) {
+        //log_error($e->getCode(), $e->getMessage());
+        throw new Exception('Internal Server error.');
+    }
+
+    $query = null;
+    $dbh = null;
+
+    return $rows;
+}
+
 function add_beat($title, $category, $filename) {
     $dbh = db_connection();
 
