@@ -21,5 +21,27 @@ function get_beats_for_sale() {
         throw new Exception('Internal Server error.');
     }
 
+    $query = null;
+    $dbh = null;
+
     return $rows;
+}
+
+function add_beat($title, $category, $filename) {
+    $dbh = db_connection();
+
+    try {
+        $query = $dbh->prepare("INSERT INTO beats VALUES (NULL, ?, ?, DEFAULT, DEFAULT, ?)");
+        $query->execute(array($title, $category, $filename));
+    } catch (PDOException $e) {
+        //log_error($e->getCode(), $e->getMessage());
+        throw new Exception('Internal Server error.');
+    }
+
+    $lastId = $dbh->lastInsertId();
+
+    $query = null;
+    $dbh = null;
+
+    return $lastId;
 }

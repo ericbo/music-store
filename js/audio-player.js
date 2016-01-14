@@ -1,3 +1,4 @@
+var baseURL = window.location.protocol + "//" + window.location.hostname + "/";
 var player = document.getElementById("music-player");
 
 $(document).ready(changeSize);
@@ -19,7 +20,11 @@ $(".list-group-item").click(function() {
     $(this).addClass("active");
 
     //Change song
-    player.src = $(this).attr('src');
+    if(player.canPlayType('audio/mpeg'))
+        player.src = baseURL + "music/" + $(this).attr('src') + ".mp3";
+    else
+        if(player.canPlayType('audio/ogg; codecs="vorbis"'))
+            player.src = baseURL + "music/" + $(this).attr('src') + ".ogg";
     player.play();
   }
 });

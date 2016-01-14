@@ -40,7 +40,7 @@
           foreach($beats as $beat)
           {
             echo "        
-            <div class=\"list-group-item\" name="test">
+            <div class=\"list-group-item\" src=\"{$beat['fileName']}\">
            <div class=\"pull-right\">
             <button class=\"btn btn-default pull-right\">Add To Cart</button>
           </div>
