@@ -14,7 +14,7 @@ function get_beats_for_sale() {
     $dbh = db_connection();
 
     try {
-        $query = $dbh->query("SELECT * FROM beats WHERE deleted = 0 AND exclusive = 0", PDO::FETCH_ASSOC);
+        $query = $dbh->query("SELECT * FROM beats WHERE deleted = 0 AND exclusive = 0 ORDER BY orderNum", PDO::FETCH_ASSOC);
         $rows = $query->fetchAll();
     } catch (PDOException $e) {
         //log_error($e->getCode(), $e->getMessage());
@@ -31,7 +31,7 @@ function get_beats() {
     $dbh = db_connection();
 
     try {
-        $query = $dbh->query("SELECT * FROM beats WHERE deleted = 0", PDO::FETCH_ASSOC);
+        $query = $dbh->query("SELECT * FROM beats WHERE deleted = 0 ORDER BY orderNum", PDO::FETCH_ASSOC);
         $rows = $query->fetchAll();
     } catch (PDOException $e) {
         //log_error($e->getCode(), $e->getMessage());
@@ -63,10 +63,19 @@ function get_deleted_beats() {
 
 function add_beat($title, $category, $filename) {
     $dbh = db_connection();
+    $dbh->beginTransaction(); //Ensures all querys are successful before changes are made to the database.
 
     try {
-        $query = $dbh->prepare("INSERT INTO beats VALUES (NULL, ?, ?, DEFAULT, DEFAULT, ?)");
+        $query = $dbh->prepare("INSERT INTO beats VALUES (NULL, ?, ?, DEFAULT, DEFAULT, ?, 0)");
         $query->execute(array($title, $category, $filename));
+
+        $lastId = $dbh->lastInsertId();
+
+        $query = $dbh->prepare("UPDATE beats SET orderNum = :id WHERE beatID = :id");
+        $query->bindParam(':id', $lastId);
+        $query->execute();
+
+        $dbh->commit();
     } catch (PDOException $e) {
         //log_error($e->getCode(), $e->getMessage());
         throw new Exception('Internal Server error.');

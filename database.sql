@@ -9,8 +9,25 @@ CREATE TABLE beats
 	exclusive		BIT(1)				DEFAULT 0		NOT NULL,
 	deleted			BIT(1)				DEFAULT 0		NOT NULL,
 	fileName		VARCHAR(128)	NOT NULL,
+	orderNum		INT 					NOT NULL,
 
-	PRIMARY KEY(beatID)
+	PRIMARY KEY(beatID),
+	KEY (orderNum)
+);
+
+CREATE TABLE beatsAnalytics
+(
+	beatAnalyticID	INT 					AUTO_INCREMENT,
+	browser 				VARCHAR(128),
+	browserVersion	FLOAT(5,3),
+	os							VARCHAR(32),
+	ipv4						INT UNSIGNED,
+	ipv6						BINARY(16),
+	hostname				TEXT,
+
+	PRIMARY KEY(beatAnalyticID),
+	KEY(ipv4),
+	KEY(ipv6)
 );
 
 #Test data for beats.
