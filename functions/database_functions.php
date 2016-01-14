@@ -6,7 +6,15 @@ function db_connection()
     $password = "";
     $database = "music_store";
     $dbport = "3306";
-    $dbh = new PDO('mysql:host=' . $servername . ';dbname='. $database, $username, $password);
+    
+    try {
+        $dbh = new PDO('mysql:host=' . $servername . ';dbname=' . $database, $username, $password);
+        $dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch(PDOException $e) {
+        throw new Exception('Database Connection Error');
+    }
+
     return $dbh;
 }
 
@@ -89,7 +97,68 @@ function add_beat($title, $category, $filename) {
     return $lastId;
 }
 
-function add_song_analytic($browser, $version, $os, $ip)
+function add_song_analytic($beatID, $browser, $version, $os, $ip)
 {
+    //Initialize the ipv4 and ipv6 feilds.
+    if(empty($ip['ipv4']))
+    {
+        $ipv4 = null;
+        $ipv6 = null;
+    }
+    elseif($ip['ipv4'])
+    {
+        $ipv4 = $ip['address'];
+        $ipv6 = null;
+    }
+    else
+    {
+        $ipv4 = null;
+        $ipv6 = $ip['address'];
+    }
 
+    if(isset($ip['lookup']))
+        $lookup = $ip['lookup'];
+    else
+        $lookup = null;
+
+    $dbh = db_connection();
+
+    //check if the same user accessed the page.
+    if($lookup != null)
+    {
+        try{
+            $query = $dbh->prepare("SELECT beatAnalyticID FROM beatsAnalytics WHERE hostname = ?");
+            $query->execute(array($lookup));
+        } catch (PDOException $e) {
+            //log_error($e->getCode(), $e->getMessage());
+            throw new Exception('Internal Server error.');
+        }
+        if($query->rowCount())
+            try {
+                $query = $dbh->prepare("UPDATE beatsAnalytics SET frequency = frequency + 1 WHERE hostname = ?");
+                $query->execute(array($lookup));
+            } catch (PDOException $e) {
+                //log_error($e->getCode(), $e->getMessage());
+                throw new Exception('Internal Server error.');
+            }
+        else
+            try {
+                $query = $dbh->prepare("INSERT INTO beatsAnalytics VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, DEFAULT)");
+                $query->execute(array($browser, $version, $os, $ipv4, $ipv6, $lookup, $beatID));
+            } catch (PDOException $e) {
+                //log_error($e->getCode(), $e->getMessage());
+                throw new Exception('Internal Server error.');
+            }
+    }
+    else
+        try {
+            $query = $dbh->prepare("INSERT INTO beatsAnalytics VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, DEFAULT)");
+            $query->execute(array($browser, $version, $os, $ipv4, $ipv6, $lookup, $beatID));
+        } catch (PDOException $e) {
+            //log_error($e->getCode(), $e->getMessage());
+            throw new Exception('Internal Server error.');
+        }
+
+    $query = null;
+    $dbh = null;
 }

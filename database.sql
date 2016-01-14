@@ -24,6 +24,8 @@ CREATE TABLE beatsAnalytics
 	ipv4						INT UNSIGNED,
 	ipv6						BINARY(16),
 	hostname				TEXT,
+	beatID					INT 						NOT NULL,
+	frequency				INT 	DEFAULT 1 NOT NULL,
 
 	PRIMARY KEY(beatAnalyticID),
 	KEY(ipv4),
