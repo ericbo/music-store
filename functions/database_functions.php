@@ -88,3 +88,8 @@ function add_beat($title, $category, $filename) {
 
     return $lastId;
 }
+
+function add_song_analytic($browser, $version, $os, $ip)
+{
+
+}
