@@ -65,24 +65,30 @@ include_once($dir . "/../functions/database_functions.php");
               <?php 
                 try {
                   $beats = get_beats();
+                  $numBeats = count($beats);
                 } catch (Exception $e) {
                   echo $e->getMessage();
                 }
 
-                if(count($beats))
+                if($numBeats)
+                {
+                  $lastBeat = -1;
                   foreach($beats as $beat)
                   {
                     echo "
-                  <tr>
-                    <td><span class=\"glyphicon glyphicon-bookmark\"></span> <a href=\"#\">{$beat['title']} ({$beat['category']})</a></td>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>
-                      <button class=\"btn btn-xs btn-primary\"><span class=\"glyphicon glyphicon-menu-down\"></span></button>
-                      <button class=\"btn btn-xs btn-primary\"><span class=\"glyphicon glyphicon-menu-up\"></span></button>
-                      <button class=\"btn btn-xs btn-danger\"><span class=\"glyphicon glyphicon-remove\"></span></button>
-                    </td>
-                  </tr>";
+                    <tr>
+                      <td><span class=\"glyphicon glyphicon-bookmark\"></span> <a href=\"#\">{$beat['title']} ({$beat['category']})</a></td>
+                      <td>--</td>
+                      <td>--</td>
+                      <td>"
+                        //TODO: KEEP DOING
+                      "
+                        <button class=\"btn btn-xs btn-primary disabled\"><span class=\"glyphicon glyphicon-menu-down\"></span></button>
+                        <button class=\"btn btn-xs btn-primary disabled\"><span class=\"glyphicon glyphicon-menu-up\"></span></button>
+                        <button onclick=\"deleteBeat({$beat['beatID']})\" class=\"btn btn-xs btn-danger\" ><span class=\"glyphicon glyphicon-remove\"></span></button>
+                      </td>
+                    </tr>";
+                  }
                 }
                 else
                   echo '<tr class="danger text-center"><td colspan="4">Library empty!</td></tr>';
@@ -95,5 +101,6 @@ include_once($dir . "/../functions/database_functions.php");
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/beats.js"></script>
   </body>
 </html>

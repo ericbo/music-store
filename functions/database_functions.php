@@ -98,6 +98,36 @@ function add_beat($title, $category, $filename) {
     return $lastId;
 }
 
+function delete_beat($id) {
+    $dbh = db_connection();
+
+    try {
+        $query = $dbh->query("UPDATE beats SET deleted = 1 WHERE beatID = ?");
+        $query->execute(array($id));
+    } catch (PDOException $e) {
+        //log_error($e->getCode(), $e->getMessage());
+        throw new Exception('Internal Server error.');
+    }
+
+    $query = null;
+    $dbh = null;
+}
+
+function restore_beat($id) {
+    $dbh = db_connection();
+
+    try {
+        $query = $dbh->query("UPDATE beats SET deleted = 0 WHERE beatID = ?");
+        $query->execute(array($id));
+    } catch (PDOException $e) {
+        //log_error($e->getCode(), $e->getMessage());
+        throw new Exception('Internal Server error.');
+    }
+
+    $query = null;
+    $dbh = null;
+}
+
 function add_song_analytic($beatID, $browser, $version, $os, $ip)
 {
     //Initialize the ipv4 and ipv6 feilds.
