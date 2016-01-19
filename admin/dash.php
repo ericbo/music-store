@@ -1,3 +1,9 @@
+<?php
+$dir = dirname(__FILE__);
+include_once($dir . "/../functions/database_functions.php");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>

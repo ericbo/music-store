@@ -1,3 +1,9 @@
+<?php 
+session_start();
+define(USERNAME, "");
+define(PASSWORD, "");
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>

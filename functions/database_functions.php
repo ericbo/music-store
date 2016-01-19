@@ -79,13 +79,14 @@ function add_beat($title, $category, $filename) {
 
         $lastId = $dbh->lastInsertId();
 
-        $query = $dbh->prepare("UPDATE beats SET orderNum = :id WHERE beatID = :id");
-        $query->bindParam(':id', $lastId);
-        $query->execute();
+        $query = $dbh->prepare("UPDATE beats SET orderNum = ? WHERE beatID = ?");
+        //$query->bindParam(':id', $lastId, PDO::PARAM_STR);
+        $query->execute(array($lastId, $lastId));
 
         $dbh->commit();
     } catch (PDOException $e) {
         //log_error($e->getCode(), $e->getMessage());
+        echo $e->getMessage();
         throw new Exception('Internal Server error.');
     }
 

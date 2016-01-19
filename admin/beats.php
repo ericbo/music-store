@@ -1,3 +1,9 @@
+<?php
+$dir = dirname(__FILE__);
+include_once($dir . "/../functions/database_functions.php");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -56,26 +62,31 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><span class="glyphicon glyphicon-bookmark"></span> <a href="#">It's Snowing - LawnReality (Cinematic Song)</a></td>
-                  <td>14</td>
-                  <td>2</td>
-                  <td>
-                    <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-menu-down"></span></button>
-                    <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-menu-up"></span></button>
-                    <button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#">It's Snowing - LawnReality (Cinematic Song)</a></td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>
-                    <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-menu-down"></span></button>
-                    <button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-menu-up"></span></button>
-                    <button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
-                  </td>
-                </tr>
+              <?php 
+                try {
+                  $beats = get_beats();
+                } catch (Exception $e) {
+                  echo $e->getMessage();
+                }
+
+                if(count($beats))
+                  foreach($beats as $beat)
+                  {
+                    echo "
+                  <tr>
+                    <td><span class=\"glyphicon glyphicon-bookmark\"></span> <a href=\"#\">{$beat['title']} ({$beat['category']})</a></td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>
+                      <button class=\"btn btn-xs btn-primary\"><span class=\"glyphicon glyphicon-menu-down\"></span></button>
+                      <button class=\"btn btn-xs btn-primary\"><span class=\"glyphicon glyphicon-menu-up\"></span></button>
+                      <button class=\"btn btn-xs btn-danger\"><span class=\"glyphicon glyphicon-remove\"></span></button>
+                    </td>
+                  </tr>";
+                }
+                else
+                  echo '<tr class="danger text-center"><td colspan="4">Library empty!</td></tr>';
+              ?>
               </tbody>
             </table>
           </div>

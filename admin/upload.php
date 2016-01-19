@@ -65,6 +65,7 @@ if(isset($_POST['submit']) && isset($_POST['title']) && isset($_POST['category']
 
     <div class="container-fluid">
     <h1 class="page-header">Upload a Beat</h1>
+
       <form class="form-horizontal" action="upload.php" method="POST" enctype="multipart/form-data">
         <?php 
           if(isset($error))
