@@ -10,6 +10,8 @@ CREATE TABLE beats
 	deleted			BIT(1)				DEFAULT 0		NOT NULL,
 	fileName		VARCHAR(128)	NOT NULL,
 	orderNum		INT 					NOT NULL,
+	leasePrice		DECIMAL(6,2)	DEFAULT 0			NOT NULL,
+	exclusivePrice	DECIMAL(6,2)	DEFAULT 0			NOT NULL,
 
 	PRIMARY KEY(beatID),
 	KEY (orderNum)

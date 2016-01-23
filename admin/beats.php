@@ -80,9 +80,7 @@ include_once($dir . "/../functions/database_functions.php");
                       <td><span class=\"glyphicon glyphicon-bookmark\"></span> <a href=\"#\">{$beat['title']} ({$beat['category']})</a></td>
                       <td>--</td>
                       <td>--</td>
-                      <td>"
-                        //TODO: KEEP DOING
-                      "
+                      <td>
                         <button class=\"btn btn-xs btn-primary disabled\"><span class=\"glyphicon glyphicon-menu-down\"></span></button>
                         <button class=\"btn btn-xs btn-primary disabled\"><span class=\"glyphicon glyphicon-menu-up\"></span></button>
                         <button onclick=\"deleteBeat({$beat['beatID']})\" class=\"btn btn-xs btn-danger\" ><span class=\"glyphicon glyphicon-remove\"></span></button>

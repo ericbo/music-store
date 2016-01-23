@@ -31,9 +31,17 @@
         <!--LIST OF MUSIC-->
       <?php
         try {
+          $beats = array();
           $beats = get_beats_for_sale();
         } catch (Exception $e) {
-          echo "We are currently undergoing maintenance, please come back later.";
+          echo '        
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <h3 class="panel-title">Warning!</h3> 
+          </div>
+          <div class="panel-body">We are currently undergoing maintenance, please come back later.</div>
+        </div>';
+          die();
         }
 
         if(count($beats))
@@ -48,8 +56,16 @@
           <small>{$beat['category']}</small>
         </div>";
           }
-        else
-          echo "No beats are currently available.";
+        else{
+          echo '
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+            <h3 class="panel-title">Notice!</h3> 
+          </div> 
+          <div class="panel-body">The website owner has yet to upload any beats, please come back later.</div>
+        </div>';
+        }
+        
       ?>
 
         <!--CONTROLLS-->
