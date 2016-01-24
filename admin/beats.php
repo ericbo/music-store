@@ -1,6 +1,7 @@
 <?php
 $dir = dirname(__FILE__);
 include_once($dir . "/../functions/database_functions.php");
+include_once($dir . "/../functions/helper_functions.php");
 
 ?>
 
@@ -37,10 +38,8 @@ include_once($dir . "/../functions/database_functions.php");
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Log Out</a></li>
+            <li class="active"><a href="<?php echo get_base_url() . "/admin/beats.php" ?>">Dashboard</a></li>
+            <li><a href="<?php echo get_base_url() . "/admin/logout.php" ?>">Log Out</a></li>
           </ul>
         </div>
       </div>

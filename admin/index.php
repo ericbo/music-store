@@ -1,8 +1,32 @@
 <?php 
 session_start();
-define(USERNAME, "");
-define(PASSWORD, "");
+$USERNAME = "demo@bottazzi.ca";
+$PASSWORD = "demo";
 
+if(empty($_SESSION['attempts']))
+  $_SESSION['attempts'] = 0;
+
+if(isset($_SESSION['user']))
+{
+  header('Location: '.$get_base_url() . '/beats.php');
+  die();
+}
+elseif(isset($_POST['email']) && isset($_POST['password']))
+{
+  echo 'key';
+  if($_SESSION['attempts'] <= 5)
+    if($_POST['email'] == $USERNAME && $_POST['password'] == PASSWORD)
+    {
+      $_SESSION['attempts'] = 0;
+      $_SESSION['user'] = $USERNAME;
+      header('Location: '.$get_base_url() . '/beats.php');
+      die();
+    }
+    else
+      $_SESSION['attempts'] += 1;
+    else
+      echo "nope";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,13 +49,13 @@ define(PASSWORD, "");
   </head>
   <body>
     <div class="container">
-      <form class="form-signin">
+      <form class="form-signin" method="POST" action="index.php">
         <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <label for="email" class="sr-only">Email address</label>
+        <input type="email" id="email" class="form-control" placeholder="Email address" required autofocus>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Password" required>
+        <!--<input class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>-->
       </form>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
