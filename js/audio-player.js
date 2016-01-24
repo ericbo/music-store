@@ -1,5 +1,6 @@
 var baseURL = window.location.protocol + "//" + window.location.hostname + "/";
 var player = document.getElementById("music-player");
+var lastClickedPrice;
 
 $(document).ready(changeSize);
 
@@ -11,7 +12,7 @@ $(window).keydown(function(e) {
 });
 
 //Listeners
-$(".list-group-item button").click(function(e) { e.stopPropagation(); });
+$(".list-group-item button").click(function(e) {e.stopPropagation();});
 
 $(".play-pause").click(transition);
 
@@ -101,4 +102,15 @@ function changeSize() {
         if($("footer").hasClass('hidden'))   //If the footer does not exist
             loadFooter();
     }
+}
+
+function showPrices(id) {
+    if(lastClickedPrice != null)
+    {
+        $("#" + lastClickedPrice).addClass('hidden');
+    }
+
+    $("#" + id).removeClass('hidden');
+
+    lastClickedPrice = id;
 }

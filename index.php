@@ -1,4 +1,5 @@
 <?php
+  session_start();
   $dir = dirname(__FILE__);
   include_once($dir . "/functions/database_functions.php");
 ?>
@@ -25,9 +26,11 @@
       <div class="page-header">
       <h1>Music Player <small>Slogan</small></h1>
       </div>
-
-      <!--MUSIC PLAYER-->
       <div class="list-group">
+      <!--Cart-->
+      <div class="list-group-item ignore text-right">
+        <a href="cart.php">Shopping Cart(<?php echo (isset($_SESSON['cart']) ? count($_SESSION['cart']) : 0); ?>)</a>
+      </div>
         <!--LIST OF MUSIC-->
       <?php
         try {
@@ -48,19 +51,25 @@
           foreach($beats as $beat)
           {
             echo "        
-            <div class=\"list-group-item\" src=\"{$beat['fileName']}\">
-           <div class=\"pull-right\">
-            <button class=\"btn btn-default pull-right\">Add To Cart</button>
+        <div class=\"list-group-item\" src=\"{$beat['fileName']}\">
+          <div class=\"pull-right\">
+            <button class=\"btn btn-default pull-right\" onClick=\"showPrices({$beat['beatID']})\">Add To Cart</button>
           </div>
+
           <p>{$beat['title']}</p> 
           <small>{$beat['category']}</small>
-        </div>";
+        </div>
+        <div id=\"{$beat['beatID']}\" class=\"list-group-item ignore hidden\" style=\"background:#3c3c3c;\">
+          <button class=\"btn btn-sm btn-primary\">Lease ($699.25)</button> 
+          <button class=\"btn btn-sm btn-primary\">Exclusice ($1099.99)</button>
+        </div>
+        ";
           }
         else{
           echo '
         <div class="panel panel-warning">
           <div class="panel-heading">
-            <h3 class="panel-title">Notice!</h3> 
+            <h3 class="panel-title">Notice!</h3>
           </div> 
           <div class="panel-body">The website owner has yet to upload any beats, please come back later.</div>
         </div>';
