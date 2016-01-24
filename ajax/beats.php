@@ -27,7 +27,6 @@ if(isset($_GET['function']) && isset($_GET['id']))
 			break;
 
 		default:
-			echo 'error!';
 			http_response_code(500);
 			break;
 	}

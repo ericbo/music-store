@@ -1,3 +1,7 @@
+<?php 
+  $dir = dirname(__FILE__);
+  include_once($dir . "/functions/helper_functions.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -55,12 +59,6 @@
                         <tr>
                             <td>   </td>
                             <td>   </td>
-                            <td><h5>Subtotal</h5></td>
-                            <td class="text-right"><h5><strong>$24.59</strong></h5></td>
-                        </tr>
-                        <tr>
-                            <td>   </td>
-                            <td>   </td>
                             <td><h3>Total</h3></td>
                             <td class="text-right"><h3><strong>$31.53</strong></h3></td>
                         </tr>
@@ -68,13 +66,14 @@
                             <td>   </td>
                             <td>   </td>
                             <td>
-                            <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
-                            </button></td>
+                                <a href="<?php echo get_base_url(); ?>" type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                                </a></td>
                             <td>
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
-                                Checkout <span class="glyphicon glyphicon-play"></span>
-                            </button></td>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                                    Checkout <span class="glyphicon glyphicon-play"></span>
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

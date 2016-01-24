@@ -4,13 +4,13 @@ include_once($dir . "/../functions/database_functions.php");
 
 $success = false;
 
-if(isset($_POST['submit']) && isset($_POST['title']) && isset($_POST['category']) && isset($_FILES['beat']))
+if(isset($_POST['submit']) && isset($_POST['title']) && isset($_POST['category']) && isset($_FILES['beat']) && isset($_POST['lease']) && isset($_POST['exclusive']))
 {
   $uploaddir = $dir . '/../music/';
   $fileName = basename($_FILES['beat']['name'], '.mp3');
       try
       {
-        add_beat($_POST['title'], $_POST['category'], $fileName);
+        add_beat($_POST['title'], $_POST['category'], $fileName, $_POST['lease'], $_POST['exclusive']);
         move_uploaded_file($_FILES['beat']['tmp_name'], $uploaddir . $fileName . ".mp3");        
         shell_exec("avconv -i {$uploaddir}{$fileName}.mp3 -c:a libvorbis -q:a 4 {$uploaddir}/{$fileName}.ogg");
         $success = true;
@@ -90,6 +90,24 @@ if(isset($_POST['submit']) && isset($_POST['title']) && isset($_POST['category']
         <label class="col-md-4 control-label" for="category">Category</label>  
         <div class="col-md-4">
         <input id="category" name="category" placeholder="Category" class="form-control input-md" required="" type="text">
+          
+        </div>
+      </div>
+
+      <!-- Text input-->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="category">Lease Price</label>  
+        <div class="col-md-4">
+        <input id="lease" name="lease" placeholder="Lease Price" class="form-control input-md" required="" type="text">
+          
+        </div>
+      </div>
+
+      <!-- Text input-->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="category">Exclusive Price</label>  
+        <div class="col-md-4">
+        <input id="exclusive" name="exclusive" placeholder="Exclusive Price" class="form-control input-md" required="" type="text">
           
         </div>
       </div>

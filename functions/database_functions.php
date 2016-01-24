@@ -18,6 +18,12 @@ function db_connection()
     return $dbh;
 }
 
+/*
+* ######################################################################
+* #                         MUSIC PLAYER
+* ######################################################################
+*/
+
 function get_beats_for_sale() {
     $dbh = db_connection();
 
@@ -34,6 +40,12 @@ function get_beats_for_sale() {
 
     return $rows;
 }
+
+/*
+* ######################################################################
+* #                         ADMINISTRATIVE FUNCTIONS
+* ######################################################################
+*/
 
 function get_beats() {
     $dbh = db_connection();
@@ -69,13 +81,13 @@ function get_deleted_beats() {
     return $rows;
 }
 
-function add_beat($title, $category, $filename) {
+function add_beat($title, $category, $filename, $leasePrice, $exclusivePrice) {
     $dbh = db_connection();
     $dbh->beginTransaction(); //Ensures all querys are successful before changes are made to the database.
 
     try {
-        $query = $dbh->prepare("INSERT INTO beats VALUES (NULL, ?, ?, DEFAULT, DEFAULT, ?, 0)");
-        $query->execute(array($title, $category, $filename));
+        $query = $dbh->prepare("INSERT INTO beats VALUES (NULL, ?, ?, DEFAULT, DEFAULT, ?, 0, ?, ?)");
+        $query->execute(array($title, $category, $filename, $leasePrice, $exclusivePrice));
 
         $lastId = $dbh->lastInsertId();
 
@@ -128,6 +140,40 @@ function restore_beat($id) {
     $dbh = null;
 }
 
+/*
+* ######################################################################
+* #                         SHOPPING CART
+* ######################################################################
+*/
+
+/*
+* When supplied an id a beat is returned in the form of an array.
+* @args $id int
+* @returns $beat array()
+*/
+function get_beat($id) {
+    $dbh = db_connection();
+
+    try {
+        $query = $dbh->query("select beatID, title, category, leasePrice, exclusivePrice FROM beats WHERE beatID = ? AND deleted = 0");
+        $query->execute(array($id));
+        $beat = $query->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        //log_error($e->getCode(), $e->getMessage());
+        throw new Exception('Internal Server error.');
+    }    
+
+    $query = null;
+    $dbh = null;
+
+    return $beat;
+}
+
+/*
+* ######################################################################
+* #                         ANALYTICS
+* ######################################################################
+*/
 function add_song_analytic($beatID, $browser, $version, $os, $ip)
 {
     //Initialize the ipv4 and ipv6 feilds.
@@ -192,4 +238,32 @@ function add_song_analytic($beatID, $browser, $version, $os, $ip)
 
     $query = null;
     $dbh = null;
+}
+
+/*
+* ######################################################################
+* #                         SECURITY/VALIDATION
+* ######################################################################
+*/
+
+/*
+* Returns a hash of the beats table. Allows the users cart to be updated in the case of
+* any modifications to the beat database.
+*/
+function checksum_beats() {
+    $dbh = db_connection();
+
+    try {
+        $query = $dbh->query("CHECKSUM TABLE beats");
+        $query->execute();
+        $checksum = $query->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        //log_error($e->getCode(), $e->getMessage());
+        throw new Exception('Internal Server error.');
+    }    
+
+    $query = null;
+    $dbh = null;
+
+    return $checksum['Checksum'];
 }
