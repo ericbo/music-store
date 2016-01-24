@@ -29,7 +29,7 @@
       <div class="list-group">
       <!--Cart-->
       <div class="list-group-item ignore text-right">
-        <a href="cart.php">Shopping Cart(<?php echo (isset($_SESSON['cart']) ? count($_SESSION['cart']) : 0); ?>)</a>
+        <a href="cart.php">Shopping Cart(<span id="cartSize"><?php echo (isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0); ?></span>)</a>
       </div>
         <!--LIST OF MUSIC-->
       <?php
@@ -60,8 +60,8 @@
           <small>{$beat['category']}</small>
         </div>
         <div id=\"{$beat['beatID']}\" class=\"list-group-item ignore hidden\" style=\"background:#3c3c3c;\">
-          <button class=\"btn btn-sm btn-primary\">Lease ($699.25)</button> 
-          <button class=\"btn btn-sm btn-primary\">Exclusice ($1099.99)</button>
+          <button onClick=\"addToCart({$beat['beatID']})\" class=\"btn btn-sm btn-primary\">Lease \${$beat['leasePrice']}</button> 
+          <button onClick=\"addToCart({$beat['beatID']}, 1)\"class=\"btn btn-sm btn-primary\">Exclusive \${$beat['exclusivePrice']}</button>
         </div>
         ";
           }
@@ -107,6 +107,7 @@
       </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/audio-player.js"></script>
+    <script src="js/cart.js"></script>
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>

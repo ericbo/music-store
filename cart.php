@@ -1,6 +1,8 @@
 <?php 
+  session_start();
   $dir = dirname(__FILE__);
   include_once($dir . "/functions/helper_functions.php");
+  $total = 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,37 +32,49 @@
                 <div class="page-header">
                     <h1>Shopping Cart</h1>
                 </div>
+                <?php 
+                if(isset($_SESSION['cart']) && count($_SESSION['cart']))
+                {
+                ?>
                 <table class="table table-hover">
                     <tbody>
+                        <?php 
+                            foreach($_SESSION['cart'] as $item)
+                            {
+                              if(isset($item['exclusive']) && $item['exclusive'] == true)
+                              {
+                                $leaseStatus = "<span class=\"text-success\"><strong>Exclusive for life</strong></span>";
+                                $price = $item['exclusivePrice'];
+                              }
+                              else
+                              {
+                                $leaseStatus = "<span class=\"text-warning\"><strong>3 month lease</strong></span>";
+                                $price = $item['leasePrice'];
+                              }
+
+                              $total += $price;
+
+                              echo "
                         <tr>
-                            <td class="col-sm-6 col-md-4">
-                            <div class="media">
-                                <h4 class="media-heading">Product name<br><small>Category</small></h4>
+                            <td class=\"col-sm-6 col-md-4\">
+                            <div class=\"media\">
+                                <h4 class=\"media-heading\">{$item['title']}<br><small>{$item['category']}</small></h4>
                             </div></td>
-                            <td class="col-sm-4 col-md-6 text-center"><span class="text-success"><strong>Exclusive for life</strong></span></td>
-                            <td class="col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>
-                            <td class="col-sm-1 col-md-1">
-                            <button type="button" class="btn btn-danger">
-                                <span class="glyphicon glyphicon-remove"></span> Remove
+                            <td class=\"col-sm-4 col-md-6 text-center\">{$leaseStatus}</td>
+                            <td class=\"col-sm-1 col-md-1 text-center\"><strong>\${$price}</strong></td>
+                            <td class=\"col-sm-1 col-md-1\">
+                            <button onClick=\"removeFromCart({$item['beatID']})\" type=\"button\" class=\"btn btn-danger\">
+                                <span class=\"glyphicon glyphicon-remove\"></span> Remove
                             </button></td>
                         </tr>
+                              ";
+                            }
+                        ?>
                         <tr>
-                            <td class="col-md-4">
-                            <div class="media">
-                                <h4 class="media-heading">Product name<br><small>Category</small></h4>
-                            </div></td>
-                            <td class="col-md-6 text-center"><span class="text-warning"><strong>3 month lease</strong></span></td>
-                            <td class="col-md-1 text-center"><strong>$9.98</strong></td>
-                            <td class="col-md-1">
-                            <button type="button" class="btn btn-danger">
-                                <span class="glyphicon glyphicon-remove"></span> Remove
-                            </button></td>
-                        </tr>
-                        <tr>
-                            <td>   </td>
-                            <td>   </td>
-                            <td><h3>Total</h3></td>
-                            <td class="text-right"><h3><strong>$31.53</strong></h3></td>
+                            <td class="col-sm-6 col-md-4">   </td>
+                            <td class="col-sm-4 col-md-6">   </td>
+                            <td class="col-sm-1 col-md-1"><h3>Total</h3></td>
+                            <td class="col-sm-1 col-md-1 text-right"><h3><strong><?php echo "\${$total}"; ?></strong></h3></td>
                         </tr>
                         <tr>
                             <td>   </td>
@@ -77,6 +91,22 @@
                         </tr>
                     </tbody>
                 </table>
+                <?php 
+                } 
+                else
+                  echo '        
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <h3 class="panel-title">Warning!</h3> 
+          </div>
+          <div class="panel-body">You\'re cart is currently empty!</div>
+        </div>
+
+        <a href="' .get_base_url(). '" type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                                </a>';
+
+                ?>
             </div>
         </div>
     </div>
@@ -103,7 +133,7 @@
   </div>
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="js/audio-player.js"></script>
+    <script src="js/cart.js"></script>
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
