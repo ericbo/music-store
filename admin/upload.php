@@ -11,13 +11,23 @@ if(isset($_POST['submit']) && isset($_POST['title']) && isset($_POST['category']
   $fileName = basename($_FILES['beat']['name'], '.mp3');
       try
       {
-        add_beat($_POST['title'], $_POST['category'], $fileName, $_POST['lease'], $_POST['exclusive']);
-        move_uploaded_file($_FILES['beat']['tmp_name'], $uploaddir . $fileName . ".mp3");        
+        if (isset($_SERVER['CONTENT_LENGTH']) && (int) $_SERVER['CONTENT_LENGTH'] > convert_to_bytes(ini_get('post_max_size'))) {
+          throw new Exception('File too large!');
+        }
+        
+        if(!move_uploaded_file($_FILES['beat']['tmp_name'], $uploaddir . $fileName . ".mp3")) {
+          throw new Exception("Could not upload file.");
+        }
         shell_exec("avconv -i {$uploaddir}{$fileName}.mp3 -c:a libvorbis -q:a 4 {$uploaddir}/{$fileName}.ogg");
+        if(!file_exists("{$uploaddir}/{$fileName}.ogg")) {
+          throw new Exception("Could not generate ogg file type.");
+        }
+        add_beat($_POST['title'], $_POST['category'], $fileName, $_POST['lease'], $_POST['exclusive']);
         $success = true;
 
       } catch (Exception $e) {
-        $error = "Something bad happend, please message the website administrator.";
+        //$error = "Something bad happend, please message the website administrator.";
+        $error = $e->getMessage();
       }
 }
 ?>
