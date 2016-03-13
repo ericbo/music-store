@@ -4,7 +4,6 @@ include_once($dir . "/../functions/database_functions.php");
 include_once($dir . "/../functions/helper_functions.php");
 
 $success = false;
-
 if(isset($_POST['submit']) && isset($_POST['title']) && isset($_POST['category']) && isset($_FILES['beat']) && isset($_POST['lease']) && isset($_POST['exclusive']))
 {
   $uploaddir = $dir . '/../music/';

@@ -42,3 +42,11 @@ function is_ipv6($ip)
 {
 	return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
 }
+
+/*
+* Converts Megabytes to bytes. Examples: 1M => 1048576
+*/
+function convert_to_bytes($str) {
+  $iUnits = trim(substr($str, 0, strlen($str) - 1));
+  return $iUnits * pow(1024, 2);
+}
