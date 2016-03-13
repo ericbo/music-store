@@ -6,7 +6,7 @@ function addToCart(id,exclusive = false) {
   XHR.addEventListener('load', function(event) {
     if(XHR.status === 201) {
     	var cart = JSON.parse(XHR.response);
-    	document.getElementById("cartSize").innerHTML = cart.length;
+      window.location = baseURL + "cart.php"
     }
     else
     	console.log("Error");

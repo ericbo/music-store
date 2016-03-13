@@ -29,7 +29,7 @@
       <div class="list-group">
       <!--Cart-->
       <div class="list-group-item ignore text-right">
-        <a href="cart.php">Shopping Cart(<span id="cartSize"><?php echo (isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0); ?></span>)</a>
+        <a href="cart.php" type="button" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</a>
       </div>
         <!--LIST OF MUSIC-->
       <?php
@@ -40,7 +40,7 @@
           echo '        
         <div class="panel panel-danger">
           <div class="panel-heading">
-            <h3 class="panel-title">Warning!</h3> 
+            <h3 class="panel-title">Warning!</h3>
           </div>
           <div class="panel-body">We are currently undergoing maintenance, please come back later.</div>
         </div>';

@@ -48,7 +48,7 @@
                               }
                               else
                               {
-                                $leaseStatus = "<span class=\"text-warning\"><strong>3 month lease</strong></span>";
+                                $leaseStatus = "<span class=\"text-warning\"><strong>Lease</strong></span>";
                                 $price = $item['leasePrice'];
                               }
 
