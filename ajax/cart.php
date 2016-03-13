@@ -36,9 +36,13 @@ if(isset($_GET['function']) && isset($_GET['id'])) {
 
 echo (isset($_SESSION['cart']) ? json_encode($_SESSION['cart']) : '[]');
 
+/*
+* Checks if changes have been made to the database since the last cart query. If changes have
+* been made update the cart. Also initializes the cart if it is the users first time interacting with it.
+*/
 function validateCart() {
 	//Check if the cart is empty, otherwise validation is not needed
-	if(isset($_SESSION['cart']) && count($_SESSION['cart']))
+	if(isset($_SESSION['cart']) && count($_SESSION['cart'])) {
 		//Check if changes have been made to the database since the last cart interaction.
 		if(isset($_SESSION['checksum']) && $_SESSION['checksum'] !== checksum_beats())
 		{
@@ -51,6 +55,9 @@ function validateCart() {
 					$_SESSION['cart'][$key] = $updatedBeat;
 			}
 		}
+	} else if (empty($_SESSION['cart'])) {
+		$_SESSION['cart'] = array();
+	}
 	$_SESSION['checksum'] = checksum_beats();
 }
 
