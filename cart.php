@@ -2,6 +2,7 @@
   session_start();
   $dir = dirname(__FILE__);
   include_once($dir . "/functions/helper_functions.php");
+  include_once($dir . "/functions/payment_functions.php");
   $total = 0;
 ?>
 <!DOCTYPE html>
@@ -127,7 +128,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Agree &amp; Continue</button>
+        <?php echo makeBuyButton($total); ?>
       </div>
     </div>
   </div>
