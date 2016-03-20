@@ -6,9 +6,9 @@ function makeBuyButton ($price, $txt = "Agree and Continue") {
 	//Variables to be used in this function.
 	$user = "";
 	$vendor = "";
-	$partner = "";
+	$partner = "paypal";
 	$pwd = "";
-	$mode = "text";
+	$mode = "test";
 	$host = "https://pilot-payflowpro.paypal.com"; //TEST
 	//$host = "https://payflowpro.paypal.com"; //Live
 
@@ -47,10 +47,10 @@ function makeBuyButton ($price, $txt = "Agree and Continue") {
 		return "<p>Payment system is down.</p>";
 	}
 
-	return "<form method='post' action='https://payflowlink.paypal.com/'>
+	return "<form style='display:inline;' method='post' action='https://payflowlink.paypal.com/'>
 				<input type='hidden' name='SECURETOKEN' value='" . $arr['SECURETOKEN'] . "'>
 				<input type='hidden' name='SECURETOKENID' value='" . $secureTokenId . "'>
 				<input type='hidden' name='MODE' value='" . $mode . "'>
-				<inpit type='submit' value='" . $txt . "'>
+				<input class='btn btn-primary' type='submit' value='" . $txt . "'>
 			</form>";
 }
