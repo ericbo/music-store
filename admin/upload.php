@@ -72,8 +72,8 @@ if(isset($_POST['submit']) && isset($_POST['title']) && isset($_POST['category']
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="<?php echo get_base_url() . "/admin/beats.php" ?>">Dashboard</a></li>
-            <li><a href="<?php echo get_base_url() . "/admin/logout.php" ?>">Log Out</a></li>
+            <li><a href="<?php echo get_base_url() . "admin/beats.php" ?>">Dashboard</a></li>
+            <li><a href="<?php echo get_base_url() . "admin/logout.php" ?>">Log Out</a></li>
           </ul>
         </div>
       </div>

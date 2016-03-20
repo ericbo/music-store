@@ -6,12 +6,11 @@ include_once($dir . "/../functions/helper_functions.php");
 
 //Creds
 $USERNAME = "demo@bottazzi.ca";
-$PASSWORD = "demo";
+$PASSWORD = '$2y$10$YpK65MbfVwV4K3WimmNiK.xxgfCiSfhtbpriyBH6EQogbbn49g3RS';
+//echo password_hash("demo", PASSWORD_DEFAULT);
 
 if(empty($_SESSION['attempts']))
   $_SESSION['attempts'] = 0;
-
-echo $_SESSION['attempts'];
 
 if(isset($_SESSION['user']))
 {
@@ -21,7 +20,7 @@ if(isset($_SESSION['user']))
 elseif(isset($_POST['email']) && isset($_POST['password']))
 {
   if($_SESSION['attempts'] <= 5) {
-    if($_POST['email'] == $USERNAME && $_POST['password'] == $PASSWORD)
+    if($_POST['email'] == $USERNAME && password_verify($_POST['password'], $PASSWORD))
     {
       $_SESSION['attempts'] = 0;
       $_SESSION['user'] = $USERNAME;
@@ -29,9 +28,10 @@ elseif(isset($_POST['email']) && isset($_POST['password']))
       die();
     } else {
       $_SESSION['attempts'] += 1;
+      $error = "Invalid email or password.";
     }
   } else {
-    echo "nope";
+    $error = "To many login attempts, try again later.";
   }
 }
 ?>
@@ -58,6 +58,10 @@ elseif(isset($_POST['email']) && isset($_POST['password']))
     <div class="container">
       <form class="form-signin" method="POST" action="index.php">
         <h2 class="form-signin-heading">Please sign in</h2>
+        <?php 
+          if(isset($error))
+            echo '<div class="alert alert-danger" role="alert"><strong>Error!</strong> ' . $error . '</div>';
+        ?>
         <label for="email" class="sr-only">Email address</label>
         <input type="email" id="email" class="form-control" placeholder="Email address" name="email" required autofocus>
         <label for="password" class="sr-only">Password</label>
