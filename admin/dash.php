@@ -1,6 +1,6 @@
 <?php
-$dir = dirname(__FILE__);
-include_once($dir . "/../functions/database_functions.php");
+// $dir = dirname(__FILE__);
+// include_once($dir . "/../functions/database_functions.php");
 
 ?>
 

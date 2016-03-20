@@ -1,7 +1,15 @@
 <?php
+session_start();
+
 $dir = dirname(__FILE__);
 include_once($dir . "/../functions/database_functions.php");
 include_once($dir . "/../functions/helper_functions.php");
+
+if(empty($_SESSION['user']))
+{
+  header('Location: '. get_base_url() . 'admin/index.php');
+  die();
+}
 
 ?>
 

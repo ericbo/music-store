@@ -1,31 +1,38 @@
-<?php 
+<?php
 session_start();
+//Includes
+$dir = dirname(__FILE__);
+include_once($dir . "/../functions/helper_functions.php");
+
+//Creds
 $USERNAME = "demo@bottazzi.ca";
 $PASSWORD = "demo";
 
 if(empty($_SESSION['attempts']))
   $_SESSION['attempts'] = 0;
 
+echo $_SESSION['attempts'];
+
 if(isset($_SESSION['user']))
 {
-  header('Location: '.$get_base_url() . '/beats.php');
+  header('Location: '. get_base_url() . 'admin/beats.php');
   die();
 }
 elseif(isset($_POST['email']) && isset($_POST['password']))
 {
-  echo 'key';
-  if($_SESSION['attempts'] <= 5)
-    if($_POST['email'] == $USERNAME && $_POST['password'] == PASSWORD)
+  if($_SESSION['attempts'] <= 5) {
+    if($_POST['email'] == $USERNAME && $_POST['password'] == $PASSWORD)
     {
       $_SESSION['attempts'] = 0;
       $_SESSION['user'] = $USERNAME;
-      header('Location: '.$get_base_url() . '/beats.php');
+      header('Location: '. get_base_url() . 'admin/beats.php');
       die();
-    }
-    else
+    } else {
       $_SESSION['attempts'] += 1;
-    else
-      echo "nope";
+    }
+  } else {
+    echo "nope";
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -52,10 +59,10 @@ elseif(isset($_POST['email']) && isset($_POST['password']))
       <form class="form-signin" method="POST" action="index.php">
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="email" class="sr-only">Email address</label>
-        <input type="email" id="email" class="form-control" placeholder="Email address" required autofocus>
+        <input type="email" id="email" class="form-control" placeholder="Email address" name="email" required autofocus>
         <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" class="form-control" placeholder="Password" required>
-        <!--<input class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>-->
+        <input type="password" id="password" class="form-control" name="password" placeholder="Password" required>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign in">
       </form>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
